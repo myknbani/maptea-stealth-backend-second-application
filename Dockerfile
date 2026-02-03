@@ -1,5 +1,5 @@
 # Stage 1: Install all dependencies
-FROM node:22.15-alpine AS deps
+FROM node:24.13-alpine AS deps
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY . .
 
 # Stage 2: Build the app
-FROM node:22.15-alpine AS builder
+FROM node:24.13-alpine AS builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY . .
 RUN pnpm build
 
 # Stage 3: Prune dev dependencies
-FROM node:22.15-alpine AS prune
+FROM node:24.13-alpine AS prune
 
 WORKDIR /app
 
@@ -34,7 +34,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile --ignore-scripts 
 
 # Stage 4: Production image with only prod deps and built code
-FROM node:22.15-alpine AS prod
+FROM node:24.13-alpine AS prod
 
 WORKDIR /app
 
