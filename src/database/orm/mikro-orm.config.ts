@@ -35,8 +35,8 @@ export default defineConfig({
   highlighter: new SqlHighlighter(),
   migrations: {
     generator: CustomMigrationGenerator,
-    path: './dist/migrations',
-    pathTs: './src/migrations',
+    path: './dist/database/migrations',
+    pathTs: './src/database/migrations',
     disableForeignKeys: false,
   },
   logger: (message: string) => {
@@ -45,8 +45,8 @@ export default defineConfig({
   },
   seeder: {
     defaultSeeder: 'MapteaEmptyTablesSeeder',
-    path: './dist/seeds',
-    pathTs: './src/seeds',
+    path: './dist/database/seeds',
+    pathTs: './src/database/seeds',
     glob: '**/*.seeder.{js,ts}',
   },
   driverOptions: {
