@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "db:sync": "pnpm orm:docker migration:up # && pnpm orm:docker seeder:run",
+    "db:sync": "pnpm orm:docker migration:up && pnpm orm:docker seeder:run",
     "start": "pnpm db:sync && nest start",
     "start:dev": "pnpm db:sync && nest start --watch",
     "start:debug": "pnpm db:sync && nest start --debug --watch",
