@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtModuleOptions } from '@nestjs/jwt';
+
+type TypesafeTimeString = NonNullable<JwtModuleOptions['signOptions']>['expiresIn'];
 
 @Injectable()
 export class Config {
@@ -17,7 +20,7 @@ export class Config {
   }
 
   // non-environment-specific (a.k.a. app) config
-  get jwtExpiration(): string {
+  get jwtExpiration(): TypesafeTimeString {
     return this.configService.get('JWT_EXPIRATION', { infer: true }) ?? '1h';
   }
 }
