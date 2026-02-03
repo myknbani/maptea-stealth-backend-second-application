@@ -1,0 +1,77 @@
+# name: Node.js CI
+
+# on:
+#   push:
+#     branches: ['main']
+#   pull_request:
+#     branches: ['main']
+
+# jobs:
+#   quality_assurance:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Install pnpm
+#         uses: pnpm/action-setup@v4
+
+#       - name: Use Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version-file: .nvmrc
+#           cache: 'pnpm'
+
+#       # Docker has its own `pnpm ci`, but this step is needed to run tests
+#       - name: Install dependencies
+#         run: pnpm install
+
+#       - name: Run tests
+#         run: pnpm test
+
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: quality_assurance
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Set up Docker
+#         uses: docker/setup-buildx-action@v3
+
+#       - name: Build Docker image
+#         run: docker build -t maptea-stealth-assessment-backend .
+
+#       - name: Save image to tar.gz
+#         run: docker save maptea-stealth-assessment-backend | gzip > maptea-stealth-assessment-backend.tar.gz
+
+#       - name: Upload image to EC2
+#         uses: appleboy/scp-action@v0.1.4
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ec2-user
+#           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+#           source: 'maptea-stealth-assessment-backend.tar.gz'
+#           target: '~'
+
+#       - name: Load and run container on EC2
+#         uses: appleboy/ssh-action@v0.1.8
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ec2-user
+#           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+#           script: |
+#             docker stop maptea-stealth-assessment-backend || true
+#             docker rm maptea-stealth-assessment-backend || true
+#             gunzip -c ~/maptea-stealth-assessment-backend.tar.gz | docker load
+#             docker run -d \
+#               --name maptea-stealth-assessment-backend \
+#               --restart unless-stopped \
+#               -p 80:3001 \
+#               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+#               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+#               -e NODE_ENV=production \
+#               -e DATABASE_SSL=true \
+#               maptea-stealth-assessment-backend
