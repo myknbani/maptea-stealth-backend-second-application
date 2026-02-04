@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 /**
  * Information about the current page. While the naming is the same, this is not comformant to the
@@ -57,7 +57,7 @@ export class PageInfo {
   }
 
   /**
-   * The offset to be used in database queries.  This is not exposed in the GraphQL schema.
+   * The offset to be used in database queries.
    */
   get offset(): number {
     return (this.currentPage - 1) * this.itemsPerPage;
