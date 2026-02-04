@@ -55,4 +55,64 @@ docker-compose up --build --watch
 
 ## Sample cURL Requests
 
-TODO
+### `register` mutation
+
+```sh
+curl -s -X POST https://stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF | jq
+{
+  "query": "mutation RegistrationMutation(\$newLead: CreateLeadInput!) {
+    register(newLeadData: \$newLead) {
+      id
+      serviceTypes {
+        id
+        name
+      }
+      fullName
+      email
+      mobileNumber
+      postCode
+      createdAt
+    }
+  }",
+  "variables": {
+    "newLead": {
+      "fullName": "Mike Coo",
+      "email": "mike+3@gov.us",
+      "mobileNumber": "+639195050505",
+      "postCode": "5088",
+      "serviceTypeNames": ["pick-up", "payment"]
+    }
+  }
+}
+EOF
+```
+
+yields
+
+```json
+{
+  "data": {
+    "register": {
+      "id": 3,
+      "serviceTypes": [
+        {
+          "id": 2,
+          "name": "pick-up"
+        },
+        {
+          "id": 3,
+          "name": "payment"
+        }
+      ],
+      "fullName": "Mike Coo",
+      "email": "mike+3@gov.us",
+      "mobileNumber": "+639195050505",
+      "postCode": "5088",
+      "createdAt": "2026-02-04T14:56:46.865Z"
+    }
+  }
+}
+```

@@ -5,6 +5,7 @@ import { LeadsService } from '../leads.service';
 import { ServiceType } from './service-type.entity';
 import { Query } from '@nestjs/graphql';
 import { ListLeadsInput } from './list-leads.input';
+import { ListLeadsOutput } from './list-leads-output.model';
 
 @Resolver(() => Lead)
 export class LeadsResolver {
@@ -17,7 +18,7 @@ export class LeadsResolver {
     return this.leadsService.createLead(newLeadData);
   }
 
-  @Query(() => [Lead], { name: 'leads', description: 'List all leads' })
+  @Query(() => ListLeadsOutput, { name: 'leads', description: 'List all leads' })
   async listLeads(
     @Args('listLeadsInput', {
       type: () => ListLeadsInput,
