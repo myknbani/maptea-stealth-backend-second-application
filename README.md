@@ -5,7 +5,11 @@ This is a simple GraphQL backend, featuring creation and retrieval of leads and 
 > [!WARNING]
 > **Disclaimer**: The leads module was redone, as the recruiter advised to start all over again.
 > Rather than starting from scratch, the [solution to the previous assessment](https://github.com/myknbani/maptea-stealth-assessment-backend)
-> was used as _"boilerplate"_
+> was used as _"boilerplate"_.
+
+> [!NOTE]
+> Some commits with similar timestamps are from `git rebase --autosquash`ing fixed-up commits.
+> Nothing automated or AI-generated :relaxed:.
 
 ## Tech Stack
 
@@ -20,14 +24,33 @@ and faster (symlinked) installs.
 
 **This is hosted in https://stackslurper.xyz/graphql**
 
-But to run locally, a Docker Compose file is provided. This way you can run the entire repo without
-installing Node.js, PostgreSQL, etc. on your machine -- and start everything **with one command**.
+1. Clone:
+
+```sh
+git clone git@github.com:myknbani/maptea-stealth-assessment-backend.git
+
+# or HTTPS
+git clone https://github.com/myknbani/maptea-stealth-assessment-backend.git
+```
+
+2. Create `.env` file
+
+```sh
+PORT=3001
+JWT_SECRET="DMOhLxCiaiNJQSw1c06Vk09A5tnSckM5S7w6lsauOJM"
+DATABASE_URL="postgresql://postgres:postgres@db:5432/maptea"
+```
+
+3. Run via Docker Compose for One-command Quickstart
+
+A Docker Compose file is provided. This way you can run the entire repo without installing Node.js,
+PostgreSQL, etc. on your OS.
 
 - It needs [v2.22](https://docs.docker.com/compose/how-tos/file-watch/) or higher to use `--watch` mode.
 - If you have an older version, you can just use `docker-compose up` instead.
   - The watch mode is for rebuilding the Docker image when new dependencies are added/updated/removed.
 
-```
+```sh
 docker-compose up --build --watch
 ```
 
