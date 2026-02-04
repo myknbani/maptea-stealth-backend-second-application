@@ -1,6 +1,7 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Seeder } from '@mikro-orm/seeder';
 import { OnlyUserSeeder } from './only-user.seeder';
+import { ServiceTypesSeeder } from './service-types.seeder';
 
 /**
  * Seeder to populate the database with required or dummy data, as long as the tables are empty.
@@ -9,6 +10,6 @@ import { OnlyUserSeeder } from './only-user.seeder';
  */
 export class MapteaEmptyTablesSeeder extends Seeder {
   run(entityManager: EntityManager) {
-    return this.call(entityManager, [OnlyUserSeeder]);
+    return this.call(entityManager, [OnlyUserSeeder, ServiceTypesSeeder]);
   }
 }
