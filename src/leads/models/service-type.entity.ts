@@ -1,6 +1,6 @@
-import { Collection, Entity, ManyToMany, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
-import { Lead } from './lead.entity';
+import { Collection, Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Lead } from './lead.entity';
 
 /**
  * Entity representing a type of service offered.
