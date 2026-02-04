@@ -6,6 +6,8 @@ import { ServiceType } from './service-type.entity';
 import { Query } from '@nestjs/graphql';
 import { ListLeadsInput } from './list-leads.input';
 import { ListLeadsOutput } from './list-leads-output.model';
+import { UseGuards } from '@nestjs/common';
+import { AuthenticatedUserGuard } from '../../auth/enhancers/authenticated-user.guard';
 
 @Resolver(() => Lead)
 export class LeadsResolver {
@@ -20,6 +22,22 @@ export class LeadsResolver {
 
   @Query(() => ListLeadsOutput, { name: 'leads', description: 'List all leads' })
   async listLeads(
+    @Args('listLeadsInput', {
+      type: () => ListLeadsInput,
+      description: 'Pagination input for listing leads',
+    })
+    listLeadsInput: ListLeadsInput,
+  ) {
+    return this.leadsService.listLeads(listLeadsInput);
+  }
+
+  @UseGuards(AuthenticatedUserGuard)
+  @Query(() => ListLeadsOutput, {
+    name: 'leadsWithAuth',
+    description:
+      'Same as the leads query, but provides auth for demo purposes, as expected of a prod backend.',
+  })
+  async authenticatedListLeads(
     @Args('listLeadsInput', {
       type: () => ListLeadsInput,
       description: 'Pagination input for listing leads',
