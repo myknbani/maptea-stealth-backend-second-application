@@ -232,4 +232,41 @@ describe('LeadsService', () => {
       expect(result.records).toEqual(mockLeadsPage);
     });
   });
+
+  describe('#getLeadById', () => {
+    it('retrieves a lead by ID', async () => {
+      // Arrange
+      const leadId = 42;
+      const mockLead = new Lead({
+        id: leadId,
+        fullName: 'Notable Person',
+        email: 'notable@person.ph',
+        mobileNumber: '+639181234567',
+        postCode: '4242',
+      });
+
+      jest.spyOn(entityManager, 'findOne').mockResolvedValue(mockLead);
+
+      // Act
+      const result = await leadsService.getLeadById(leadId);
+
+      // Assert
+      expect(entityManager.findOne).toHaveBeenCalledWith(Lead, leadId);
+      expect(result).toEqual(mockLead);
+    });
+
+    it('returns null if lead not found', async () => {
+      // Arrange
+      const leadId = 999;
+
+      jest.spyOn(entityManager, 'findOne').mockResolvedValue(null);
+
+      // Act
+      const result = await leadsService.getLeadById(leadId);
+
+      // Assert
+      expect(entityManager.findOne).toHaveBeenCalledWith(Lead, leadId);
+      expect(result).toBeNull();
+    });
+  });
 });

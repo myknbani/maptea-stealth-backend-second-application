@@ -1,4 +1,4 @@
-import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Lead } from './lead.entity';
 import { CreateLeadInput } from './create-lead.input';
 import { LeadsService } from '../leads.service';
@@ -31,5 +31,16 @@ export class LeadsResolver {
   @ResolveField(() => [ServiceType], { description: 'Service types the lead is interested in' })
   async serviceTypes(@Parent() lead: Lead) {
     return await lead.serviceTypes.load();
+  }
+
+  @Query(() => Lead, {
+    name: 'lead',
+    description: 'Get a lead by ID. Will return null if no lead found.',
+    nullable: true,
+  })
+  async getLeadById(
+    @Args({ name: 'id', type: () => Int, description: 'ID of the lead to retrieve' }) id: number,
+  ) {
+    return await this.leadsService.getLeadById(id);
   }
 }

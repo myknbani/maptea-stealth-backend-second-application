@@ -59,4 +59,13 @@ export class LeadsService {
     pageInfo.totalItemsCount = totalCount;
     return new ListLeadsOutput(pageInfo, leads);
   }
+
+  /**
+   * Retrieves a lead by its primary key.
+   *
+   * @param id The primary key of the lead.
+   */
+  async getLeadById(id: number) {
+    return await this.entityManager.findOne(Lead, id);
+  }
 }

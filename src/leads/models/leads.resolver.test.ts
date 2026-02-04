@@ -88,4 +88,26 @@ describe('LeadsResolver', () => {
       );
     });
   });
+
+  describe('#getLeadById', () => {
+    it('calls LeadsService.getLeadById with correct parameters', async () => {
+      // Arrange
+      const leadId = 5;
+      const expectedLead = new Lead({
+        id: leadId,
+        fullName: 'Specific Lead',
+        email: 'specific@lead.ph',
+        mobileNumber: '+639171234568',
+        postCode: '5555',
+      });
+      jest.spyOn(leadsService, 'getLeadById').mockResolvedValue(expectedLead);
+
+      // Act
+      const result = await leadsResolver.getLeadById(leadId);
+
+      // Assert
+      expect(leadsService.getLeadById).toHaveBeenCalledWith(leadId);
+      expect(result).toBe(expectedLead);
+    });
+  });
 });
