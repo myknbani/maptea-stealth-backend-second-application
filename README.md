@@ -316,7 +316,7 @@ yields
 curl -s -X POST https://stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3NzAyMTkzMDQsImV4cCI6MTc3MDIyMjkwNH0.fYVu5v2F_gcx94eNM1xJKcp2ZoIMOanFRa5roM3hfhY" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3NzAyMTkyMTIsImV4cCI6MTc3MDgyNDAxMn0.cw0fKximMCbCSudWdFp3S6W_hillN6goSjmEK5TDb5I" \
   -d @- <<EOF | jq
 {
   "query": "query GetLeads(\$paginationOptions: ListLeadsInput!) {
