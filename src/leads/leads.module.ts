@@ -1,8 +1,14 @@
 import { Module } from '@nestjs/common';
+import { LeadsService } from './leads.service';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Lead } from './models/lead.entity';
+import { ServiceType } from './models/service-type.entity';
+import { LeadInterest } from './models/lead-interest.entity';
+import { LeadsResolver } from './models/leads.resolver';
 
 @Module({
-  imports: [],
-  providers: [],
+  imports: [MikroOrmModule.forFeature([Lead, ServiceType, LeadInterest])],
+  providers: [LeadsService, LeadsResolver],
   exports: [],
 })
 export class LeadsModule {}

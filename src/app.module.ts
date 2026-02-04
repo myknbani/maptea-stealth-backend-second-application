@@ -10,6 +10,7 @@ import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import mikroOrmConfig from './database/orm/mikro-orm.config';
+import { LeadsModule } from './leads/leads.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import mikroOrmConfig from './database/orm/mikro-orm.config';
       introspection: true, // expose even in production for exercise demo purposes
     }),
     AuthModule,
+    LeadsModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
