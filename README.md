@@ -3,7 +3,9 @@
 This is a simple GraphQL backend, featuring creation and retrieval of leads and their interests.
 
 > [!WARNING]
-> All cURL requests in this README will stop working. I'll point the `stackslurper.xyz` away from AWS, repurposing it now for my fulltime job.
+> **Disclaimer**: The leads module was redone, as the recruiter advised to start all over again.
+> Rather than starting from scratch, the [solution to the previous assessment](https://github.com/myknbani/maptea-stealth-assessment-backend)
+> was used as _"boilerplate"_
 
 ## Tech Stack
 
@@ -112,6 +114,127 @@ yields
       "mobileNumber": "+639195050505",
       "postCode": "5088",
       "createdAt": "2026-02-04T14:56:46.865Z"
+    }
+  }
+}
+```
+
+---
+
+### `leads` query
+
+```sh
+curl -s -X POST https://stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF | jq
+{
+  "query": "query GetLeads(\$paginationOptions: ListLeadsInput!) {
+    leads(listLeadsInput: \$paginationOptions) {
+      pageInfo {
+        itemsPerPage
+        currentPage
+        totalItemsCount
+        hasNextPage
+        hasPreviousPage
+        offset
+      }
+      records {
+        serviceTypes {
+          name
+        }
+        fullName
+        email
+      }
+    }
+  }",
+  "variables": {
+    "paginationOptions": {
+      "itemsPerPage": 2,
+      "currentPage": 2
+    }
+  }
+}
+EOF
+```
+
+yields:
+
+```json
+{
+  "data": {
+    "leads": {
+      "pageInfo": {
+        "itemsPerPage": 2,
+        "currentPage": 2,
+        "totalItemsCount": 3,
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "offset": 2
+      },
+      "records": [
+        {
+          "serviceTypes": [
+            {
+              "name": "pick-up"
+            },
+            {
+              "name": "payment"
+            }
+          ],
+          "fullName": "Mike Coo",
+          "email": "mike+3@gov.us"
+        }
+      ]
+    }
+  }
+}
+```
+
+---
+
+### `lead` query
+
+```sh
+curl -s -X POST https://stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF | jq
+{
+  "query": "query GetLead(\$id: Int!) {
+    lead(id: \$id) {
+      id
+      serviceTypes {
+        name
+      }
+      fullName
+      email
+    }
+  }",
+  "variables": {
+    "id": 2
+  }
+}
+EOF
+```
+
+yields
+
+```json
+{
+  "data": {
+    "lead": {
+      "id": 2,
+      "serviceTypes": [
+        {
+          "name": "pick-up"
+        },
+        {
+          "name": "payment"
+        }
+      ],
+      "fullName": "Mike Coo",
+      "email": "mike+another@gov.us"
     }
   }
 }
