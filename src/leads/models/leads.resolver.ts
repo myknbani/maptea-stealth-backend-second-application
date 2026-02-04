@@ -10,7 +10,7 @@ import { ListLeadsInput } from './list-leads.input';
 export class LeadsResolver {
   constructor(private readonly leadsService: LeadsService) {}
 
-  @Mutation(() => Lead, { name: 'createLead', description: 'Create a new lead' })
+  @Mutation(() => Lead, { name: 'register', description: 'Create a new lead' })
   async createLead(
     @Args('newLeadData', { description: 'Data for the new lead' }) newLeadData: CreateLeadInput,
   ) {
