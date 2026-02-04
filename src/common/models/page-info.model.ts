@@ -16,16 +16,16 @@ export class PageInfo {
   readonly itemsPerPage: number;
 
   /**
-   * The total number of items available.
-   */
-  @Field(() => Int)
-  readonly totalItemsCount: number;
-
-  /**
    * The current page number (1-based).
    */
   @Field(() => Int)
   readonly currentPage: number;
+
+  /**
+   * The total number of items available. This is the only mutable field.
+   */
+  @Field(() => Int)
+  totalItemsCount?: number;
 
   /**
    * Whether there's a next page.
@@ -49,7 +49,11 @@ export class PageInfo {
   @Field(() => Int)
   @Expose()
   get totalPageCount(): number {
-    return Math.ceil(this.totalItemsCount / this.itemsPerPage);
+    if (this.totalItemsCount == null) {
+      throw new Error('totalItemsCount must be set to calculate totalPageCount');
+    }
+
+    return Math.ceil((this.totalItemsCount ?? 0) / this.itemsPerPage);
   }
 
   /**

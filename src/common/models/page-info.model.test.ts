@@ -112,4 +112,18 @@ describe('createPaginationMetadata', () => {
     expect(result.totalPageCount).toBe(5);
     expect(result.offset).toBe(50);
   });
+
+  it('throws an error when totalItemsCount is not set and totalPageCount is accessed', () => {
+    // Arrange
+    const currentPage = 1;
+    const itemsPerPage = 10;
+
+    // Act
+    const result = new PageInfo({ currentPage, itemsPerPage });
+
+    // Assert
+    expect(() => result.totalPageCount).toThrow(
+      'totalItemsCount must be set to calculate totalPageCount',
+    );
+  });
 });
