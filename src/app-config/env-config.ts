@@ -4,8 +4,11 @@ import { JwtModuleOptions } from '@nestjs/jwt';
 
 type TypesafeTimeString = NonNullable<JwtModuleOptions['signOptions']>['expiresIn'];
 
+/**
+ * Configuration that's controlled or overridable via environment variables.
+ */
 @Injectable()
-export class Config {
+export class EnvConfig {
   constructor(private readonly configService: ConfigService<Record<string, any>, true>) {}
 
   get port(): number {

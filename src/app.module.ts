@@ -4,7 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppConfigModule } from './app-config/app-config.module';
-import { Config } from './app-config/config';
+import { EnvConfig } from './app-config/env-config';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
@@ -16,8 +16,8 @@ import { LeadsModule } from './leads/leads.module';
   imports: [
     MikroOrmModule.forRootAsync({
       imports: [AppConfigModule],
-      inject: [Config],
-      useFactory: (config: Config): Options => ({
+      inject: [EnvConfig],
+      useFactory: (config: EnvConfig): Options => ({
         driver: PostgreSqlDriver,
         ...mikroOrmConfig,
         clientUrl: config.databaseUrl,

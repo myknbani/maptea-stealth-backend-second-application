@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { Config } from './app-config/config';
+import { EnvConfig } from './app-config/env-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,7 +12,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  const config = app.get(Config);
+  const config = app.get(EnvConfig);
   await app.listen(config.port);
 }
 
