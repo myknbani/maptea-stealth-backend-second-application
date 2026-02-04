@@ -11,6 +11,11 @@ import { ServiceType } from '../../leads/models/service-type.entity';
 export class ServiceTypesSeeder extends Seeder {
   override async run(entityManager: EntityManager) {
     const serviceTypes = ['delivery', 'pick-up', 'payment'];
+    const count = await entityManager.count(ServiceType);
+    if (count > 0) {
+      // Already seeded
+      return;
+    }
 
     for (const name of serviceTypes) {
       const serviceType = new ServiceType({ name });
