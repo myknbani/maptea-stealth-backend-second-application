@@ -6,12 +6,11 @@ import { ArrayMinSize, IsArray, IsString } from 'class-validator';
  * Input type for creating a new lead.
  */
 @InputType()
-export class CreateLeadInput extends OmitType(Lead, [
-  'id',
-  'createdAt',
-  'updatedAt',
-  'serviceTypes',
-]) {
+export class CreateLeadInput extends OmitType(
+  Lead,
+  ['id', 'createdAt', 'updatedAt', 'serviceTypes'] as const,
+  InputType,
+) {
   /**
    * The names of the service types the lead is interested in.
    */

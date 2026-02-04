@@ -1,5 +1,6 @@
 import { Collection, Entity, ManyToMany, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { Lead } from './lead.entity';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 /**
  * Entity representing a type of service offered.
@@ -12,6 +13,7 @@ import { Lead } from './lead.entity';
  * But it does not feel _"constant"_ enough to be an enum, so we use an entity.
  */
 @Entity()
+@ObjectType()
 export class ServiceType {
   /**
    * Primary key -- auto-incrementing integer.
@@ -44,6 +46,7 @@ export class ServiceType {
   /**
    * Leads that are interested in this service type.
    */
+  @Field(() => [Lead])
   @ManyToMany({ entity: () => Lead, mappedBy: (lead) => lead.serviceTypes })
   leads = new Collection<Lead>(this);
 

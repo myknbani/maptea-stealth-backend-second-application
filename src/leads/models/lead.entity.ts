@@ -1,17 +1,20 @@
 import { Collection, Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
-import { ServiceType } from './service-type.entity';
-import { LeadInterest } from './lead-interest.entity';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
+import { LeadInterest } from './lead-interest.entity';
+import { ServiceType } from './service-type.entity';
 
 /**
  * It represents a potential lead / customer who takes an interest in our services.
  */
 @Entity()
+@ObjectType()
 export class Lead {
   /**
    * Primary key -- auto-incrementing integer.
    */
   @PrimaryKey()
+  @Field(() => Int) // integer rather than Javascript's number type
   id!: number;
 
   /**
@@ -61,6 +64,7 @@ export class Lead {
   /**
    * Service types that the lead is interested in.
    */
+  @Field(() => [ServiceType])
   @ManyToMany({ entity: () => ServiceType, pivotEntity: () => LeadInterest })
   serviceTypes = new Collection<ServiceType>(this);
 

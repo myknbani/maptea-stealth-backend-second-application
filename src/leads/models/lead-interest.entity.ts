@@ -26,18 +26,11 @@ export class LeadInterest {
   serviceType!: ServiceType;
 
   /**
-   * Date and time when the lead interest was created.  This is populated by the ORM, not the DB.
+   * Date and time when the lead interest was created.  This is populated by the DB, and not the
+   * ORM, since MikroORM only seems to populate the composite primary key fields.
    */
-  @Property()
-  createdAt: Date = new Date();
-
-  /**
-   * Date and time when the lead interest was last updated.  This is populated by the ORM, not the DB.
-   *
-   * Identical to {@link createdAt} on creation.
-   */
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+  @Property({ defaultRaw: 'NOW()' })
+  createdAt: Date;
 
   constructor(data: Partial<LeadInterest>) {
     Object.assign(this, data);
