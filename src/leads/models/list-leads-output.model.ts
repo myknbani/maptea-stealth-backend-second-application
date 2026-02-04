@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { PageInfo } from 'src/common/models/page-info.model';
+import { PageInfo } from '../../common/models/page-info.model';
 import { Lead } from './lead.entity';
 
 /**
@@ -11,7 +11,7 @@ import { Lead } from './lead.entity';
  * @see {@link https://docs.nestjs.com/graphql/cli-plugin MOdels}
  */
 @ObjectType()
-export class ListLeadOutput {
+export class ListLeadsOutput {
   /**
    * Relay-lite pagination information, but uses offset-based pagination rather than cursor-based.
    */
@@ -20,10 +20,10 @@ export class ListLeadOutput {
   /**
    * List of leads for the current page.
    */
-  record: Lead[];
+  records: Lead[];
 
   constructor(pageInfo: PageInfo, record: Lead[]) {
     this.pageInfo = pageInfo;
-    this.record = record;
+    this.records = record;
   }
 }
