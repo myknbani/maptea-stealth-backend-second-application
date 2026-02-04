@@ -46,7 +46,7 @@ export default tseslint.config(
   },
   {
     // migrations often have async methods without await (MikroORM signature requirement)
-    files: ['**/migrations/**/*.ts'],
+    files: ['**/{migrations,seeds}/**/*.ts'],
     rules: {
       '@typescript-eslint/require-await': 'off',
     },
