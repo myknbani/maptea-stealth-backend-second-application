@@ -52,6 +52,13 @@ export class PageInfo {
     return Math.ceil(this.totalItemsCount / this.itemsPerPage);
   }
 
+  /**
+   * The offset to be used in database queries.  This is not exposed in the GraphQL schema.
+   */
+  get offset(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
   constructor(data: Pick<PageInfo, 'itemsPerPage' | 'totalItemsCount' | 'currentPage'>) {
     Object.assign(this, data);
   }

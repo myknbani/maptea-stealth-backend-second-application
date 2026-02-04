@@ -14,6 +14,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(true);
     expect(result.hasPreviousPage).toBe(false);
     expect(result.totalPageCount).toBe(10);
+    expect(result.offset).toBe(0);
   });
 
   it('returns correct metadata for the last page', () => {
@@ -29,6 +30,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(false);
     expect(result.hasPreviousPage).toBe(true);
     expect(result.totalPageCount).toBe(10);
+    expect(result.offset).toBe(90);
   });
 
   it('returns correct metadata for the last page, when itemsPerPage does not divide totalItemsCount evenly', () => {
@@ -44,6 +46,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(false);
     expect(result.hasPreviousPage).toBe(true);
     expect(result.totalPageCount).toBe(10);
+    expect(result.offset).toBe(90);
   });
 
   it('returns correct metadata for a middle page', () => {
@@ -59,6 +62,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(true);
     expect(result.hasPreviousPage).toBe(true);
     expect(result.totalPageCount).toBe(10);
+    expect(result.offset).toBe(40);
   });
 
   it('returns correct metadata when there are no items', () => {
@@ -74,6 +78,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(false);
     expect(result.hasPreviousPage).toBe(false);
     expect(result.totalPageCount).toBe(0);
+    expect(result.offset).toBe(0);
   });
 
   it('returns correct metadata when itemsPerPage is greater than totalItemsCount', () => {
@@ -89,6 +94,7 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(false);
     expect(result.hasPreviousPage).toBe(false);
     expect(result.totalPageCount).toBe(1);
+    expect(result.offset).toBe(0);
   });
 
   it('returns correct metadata when currentPage is greater than totalPageCount', () => {
@@ -104,5 +110,6 @@ describe('createPaginationMetadata', () => {
     expect(result.hasNextPage).toBe(false);
     expect(result.hasPreviousPage).toBe(true);
     expect(result.totalPageCount).toBe(5);
+    expect(result.offset).toBe(50);
   });
 });
