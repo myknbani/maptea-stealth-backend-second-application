@@ -3,6 +3,9 @@ import { LeadsService } from '../leads.service';
 import { LeadsResolver } from './leads.resolver';
 import { createMock } from '@golevelup/ts-jest';
 import { Lead } from './lead.entity';
+import { ListLeadsOutput } from './list-leads-output.model';
+import { PageInfo } from '../../common/models/page-info.model';
+import { ListLeadsInput } from './list-leads.input';
 
 describe('LeadsResolver', () => {
   let leadsResolver: LeadsResolver;
@@ -39,6 +42,50 @@ describe('LeadsResolver', () => {
       // Assert
       expect(leadsService.createLead).toHaveBeenCalledWith(newLeadData);
       expect(result).toBe(expectedLead);
+    });
+  });
+
+  describe('#listLeads', () => {
+    it('calls LeadsService.listLeads with correct parameters', async () => {
+      // Arrange
+      const listLeadsInput = new ListLeadsInput({ itemsPerPage: 10, currentPage: 1 });
+
+      const expectedLeads = [
+        new Lead({
+          id: 1,
+          fullName: 'Lead One',
+          email: 'one@doe.net',
+          mobileNumber: '+639181234567',
+          postCode: '1111',
+        }),
+        new Lead({
+          id: 2,
+          fullName: 'Lead Two',
+          email: 'two@doe.net',
+          mobileNumber: '+639191234567',
+          postCode: '2222',
+        }),
+      ];
+      jest
+        .spyOn(leadsService, 'listLeads')
+        .mockResolvedValue(
+          new ListLeadsOutput(
+            new PageInfo({ itemsPerPage: 10, currentPage: 1, totalItemsCount: 2 }),
+            expectedLeads,
+          ),
+        );
+
+      // Act
+      const result = await leadsResolver.listLeads(listLeadsInput);
+
+      // Assert
+      expect(leadsService.listLeads).toHaveBeenCalledWith(listLeadsInput);
+      expect(result).toEqual(
+        new ListLeadsOutput(
+          new PageInfo({ itemsPerPage: 10, currentPage: 1, totalItemsCount: 2 }),
+          expectedLeads,
+        ),
+      );
     });
   });
 });

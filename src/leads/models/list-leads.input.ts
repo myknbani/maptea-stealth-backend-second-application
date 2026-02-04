@@ -24,4 +24,8 @@ export class ListLeadsInput implements Pick<PageInfo, 'currentPage' | 'itemsPerP
   @IsPositive()
   @IsOptional()
   currentPage = 1;
+
+  constructor(data: Partial<ListLeadsInput>) {
+    Object.assign(this, data);
+  }
 }
