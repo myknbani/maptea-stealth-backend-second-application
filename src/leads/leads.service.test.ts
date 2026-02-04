@@ -6,6 +6,7 @@ import { CreateLeadInput } from './models/create-lead.input';
 import { ServiceType } from './models/service-type.entity';
 import _ from 'lodash';
 import { UnprocessableEntityException } from '@nestjs/common';
+import { Lead } from './models/lead.entity';
 
 describe('LeadsService', () => {
   let leadsService: LeadsService;
@@ -180,6 +181,55 @@ describe('LeadsService', () => {
       expect(result as UnprocessableEntityException).toMatchObject({
         message: 'At least one valid service type must be provided.',
       });
+    });
+  });
+
+  describe('#listLeads', () => {
+    it('lists leads with pagination', async () => {
+      // Arrange
+      const listLeadsInput = {
+        itemsPerPage: 2,
+        currentPage: 1,
+      };
+
+      const mockLeadsPage = [
+        new Lead({
+          id: 1,
+          fullName: 'Lead One',
+          email: 'mike@lead.one',
+          mobileNumber: '+639171234561',
+          postCode: '1000',
+        }),
+        new Lead({
+          id: 2,
+          fullName: 'Lead Two',
+          email: 'aragorn@two.towers',
+          mobileNumber: '+639171234562',
+          postCode: '2000',
+        }),
+      ];
+      const mockTotalCount = 5;
+
+      jest.spyOn(entityManager, 'findAndCount').mockResolvedValue([mockLeadsPage, mockTotalCount]);
+
+      // Act
+      const result = await leadsService.listLeads(listLeadsInput);
+
+      // Assert
+      expect(entityManager.findAndCount).toHaveBeenCalledWith(
+        Lead,
+        {},
+        {
+          limit: listLeadsInput.itemsPerPage,
+          offset: 0,
+        },
+      );
+      expect(result.pageInfo).toMatchObject({
+        itemsPerPage: listLeadsInput.itemsPerPage,
+        currentPage: listLeadsInput.currentPage,
+        totalItemsCount: mockTotalCount,
+      });
+      expect(result.records).toEqual(mockLeadsPage);
     });
   });
 });

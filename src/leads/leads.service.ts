@@ -4,6 +4,9 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { Lead } from './models/lead.entity';
 import { ServiceType } from './models/service-type.entity';
 import _ from 'lodash';
+import { ListLeadsInput } from './models/list-leads.input';
+import { PageInfo } from '../common/models/page-info.model';
+import { ListLeadsOutput } from './models/list-leads-output.model';
 
 /**
  * Service to manage leads.
@@ -33,5 +36,27 @@ export class LeadsService {
 
     await this.entityManager.persist(lead).flush();
     return lead;
+  }
+
+  /**
+   * Lists leads, with pagination, but currently no filtering or sorting.
+   */
+  async listLeads(listLeadsInput: ListLeadsInput) {
+    const pageInfo = new PageInfo({
+      itemsPerPage: listLeadsInput.itemsPerPage,
+      currentPage: listLeadsInput.currentPage,
+    });
+
+    const [leads, totalCount] = await this.entityManager.findAndCount(
+      Lead,
+      {},
+      {
+        limit: listLeadsInput.itemsPerPage,
+        offset: pageInfo.offset,
+      },
+    );
+
+    pageInfo.totalItemsCount = totalCount;
+    return new ListLeadsOutput(pageInfo, leads);
   }
 }
