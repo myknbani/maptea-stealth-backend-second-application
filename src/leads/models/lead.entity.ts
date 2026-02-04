@@ -1,6 +1,7 @@
 import { Collection, Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { ServiceType } from './service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
+import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
 
 /**
  * It represents a potential lead / customer who takes an interest in our services.
@@ -17,24 +18,30 @@ export class Lead {
    * Full name of the lead.
    */
   @Property()
+  @IsString()
+  @IsNotEmpty()
   fullName: string;
 
   /**
    * Email address of the lead -- unique constraint.
    */
   @Property({ unique: true })
+  @IsEmail()
   email: string;
 
   /**
    * Mobile number of the lead in E.164 format.
    */
   @Property()
+  @IsPhoneNumber()
   mobileNumber: string;
 
   /**
-   * Postal code of the lead.
+   * Postal code of the lead.  Currently it does not use strict postal code validation.
    */
   @Property()
+  @IsString()
+  @IsNotEmpty()
   postCode: string;
 
   /**
