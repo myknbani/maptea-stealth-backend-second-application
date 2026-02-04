@@ -262,3 +262,89 @@ yields
   }
 }
 ```
+
+## Authentication
+
+> [!NOTE]
+> Serious production backends need auth, I just thought I would need to demo something like this:
+
+### `leadsWithAuth` query
+
+There's just one user, username = `admin`, password = `admin`.
+
+1. Get a token first:
+
+```sh
+curl -s -X POST https://stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF | jq
+{
+  "query": "mutation LoginMutation(\$loginInput: LoginInput!) {
+    login(loginInput: \$loginInput) {
+      accessToken
+    }
+  }",
+  "variables": {
+    "loginInput": {
+      "username": "admin",
+      "password": "admin"
+    }
+  }
+}
+EOF
+```
+
+yields
+
+```json
+{
+  "data": {
+    "login": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3NzAyMTkyMTIsImV4cCI6MTc3MDgyNDAxMn0.cw0fKximMCbCSudWdFp3S6W_hillN6goSjmEK5TDb5I"
+    }
+  }
+}
+```
+
+2. Make the request:
+
+> [!NOTE]
+> This token would have expired, and is from local anyway
+
+```sh
+curl -s -X POST https://stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3NzAyMTkzMDQsImV4cCI6MTc3MDIyMjkwNH0.fYVu5v2F_gcx94eNM1xJKcp2ZoIMOanFRa5roM3hfhY" \
+  -d @- <<EOF | jq
+{
+  "query": "query GetLeads(\$paginationOptions: ListLeadsInput!) {
+    leadsWithAuth(listLeadsInput: \$paginationOptions) {
+      pageInfo {
+        itemsPerPage
+        currentPage
+        totalItemsCount
+        hasNextPage
+        hasPreviousPage
+        offset
+      }
+      records {
+        serviceTypes {
+          name
+        }
+        fullName
+        email
+      }
+    }
+  }",
+  "variables": {
+    "paginationOptions": {
+      "itemsPerPage": 2
+    }
+  }
+}
+EOF
+```
+
+yields the same results as the `leads` query.
