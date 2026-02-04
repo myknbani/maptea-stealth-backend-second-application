@@ -1,4 +1,4 @@
-import { Field, Int } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsInt, IsOptional, IsPositive } from 'class-validator';
 import { PageInfo } from '../../common/models/page-info.model';
 import { ConstantsConfig } from '../../app-config/constants-config';
@@ -6,6 +6,7 @@ import { ConstantsConfig } from '../../app-config/constants-config';
 /**
  * Model representing the input of listing leads.  Currently only has pagination, no filters.
  */
+@InputType()
 export class ListLeadsInput implements Pick<PageInfo, 'currentPage' | 'itemsPerPage'> {
   /**
    * The number of items per page.
