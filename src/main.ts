@@ -12,6 +12,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  app.enableCors('*'); // TODO: make this stricter and env-specific
   const config = app.get(EnvConfig);
   await app.listen(config.port);
 }
