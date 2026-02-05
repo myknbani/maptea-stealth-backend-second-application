@@ -10,10 +10,9 @@ This is a simple GraphQL backend, featuring creation and retrieval of leads and 
 > [!NOTE]
 > Some commits with similar timestamps are from `git rebase --autosquash`ing fixed-up commits.
 > Nothing automated or AI-generated :relaxed:.
->
-> ---
->
-> Optional frontend repo: TODO --- Will work on it if I have time and energy
+
+> [!TIP]
+> Optional frontend repo: https://github.com/myknbani/maptea-stealth-assessment-frontend-second-application
 
 ## Tech Stack
 
