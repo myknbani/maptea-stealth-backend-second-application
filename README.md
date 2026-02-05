@@ -1,6 +1,7 @@
 # Maptea Backend Assessment
 
-This is a simple GraphQL backend, featuring creation and retrieval of leads and their interests.
+- This is a simple GraphQL backend, featuring creation and retrieval of leads and their interests.
+- **This is hosted in https://stackslurper.xyz/graphql**
 
 > [!WARNING]
 > **Disclaimer**: The leads module was redone, as the recruiter advised to start all over again.
@@ -12,7 +13,9 @@ This is a simple GraphQL backend, featuring creation and retrieval of leads and 
 > Nothing automated or AI-generated :relaxed:.
 
 > [!TIP]
-> Optional frontend repo: https://github.com/myknbani/maptea-stealth-assessment-frontend-second-application
+>
+> - Optional frontend repo: [`myknbani/maptea-stealth-assessment-frontend-second-application`](https://github.com/myknbani/maptea-stealth-assessment-frontend-second-application)
+> - Deployed at: https://maptea-stealth-frontend.netlify.app/
 
 ## Tech Stack
 
@@ -24,8 +27,6 @@ This also uses [pnpm](https://pnpm.io/) as a package manager for features such a
 and faster (symlinked) installs.
 
 ## Getting Started
-
-**This is hosted in https://stackslurper.xyz/graphql**
 
 1. Clone:
 
