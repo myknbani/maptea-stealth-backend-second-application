@@ -3,6 +3,10 @@
 - This is a simple GraphQL backend, featuring creation and retrieval of leads and their interests.
 - **This is hosted in https://stackslurper.xyz/graphql**
 
+> [!IMPORTANT]
+> I'm taking down the AWS server used to host the backend to save on costs.
+> It seems that the application has stalled without any updates from the recruiter.
+
 > [!WARNING]
 > **Disclaimer**: The leads module was redone, as the recruiter advised to start all over again.
 > Rather than starting from scratch, the [solution to the previous assessment](https://github.com/myknbani/maptea-stealth-assessment-backend)
